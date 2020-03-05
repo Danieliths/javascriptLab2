@@ -4,30 +4,24 @@ var showQuery = '&op=select';
 var keyQuery = '?key=';
 var querySuccsess = false;
 var numberOfRetrys = 0;
+
+
+
 function addBook(){
-    console.log('testföre');
-    console.log(querySuccsess);
-    console.log(numberOfRetrys);
-    //while(!querySuccsess && numberOfRetrys < 10){
         fetch(baseUrl + keyQuery + key + addQuery + '&title=test&author=bajsmannen')
         .then((response) => {
         return response.json();
         })
         .then((data) => {
-        console.log(data);
-        if(data.status == 'success') {
-            console.log('it was successful');
+        if(data.status == 'success'  || numberOfRetrys > 2) {
             console.log(data);
+            numberOfRetrys = 0;
         } 
-        else console.log('Failed');
-        if(!querySuccsess){
+        else {
             numberOfRetrys++;
+            addBook();
         }
-        else querySuccsess = true;
         });
-
-    //}
-    console.log('testefter');
 }
 function showBooks(){
 
