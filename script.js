@@ -22,9 +22,7 @@ var json = fetch('https://www.forverkliga.se/JavaScript/api/crud.php?requestKey'
 
   });
 }
-function addBook(){
-  console.log(key);
-}
+
 
 function deleteBook() {
     var consoleDiv = document.getElementById('console');
