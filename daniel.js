@@ -2,16 +2,19 @@ var baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php';
 var addQuery = '&op=insert';
 var showQuery = '&op=select';
 var keyQuery = '?key=';
-var querySuccsess = false;
 var numberOfRetrys = 0;
 
 function message(succsess, message){
     var consoleDiv = document.getElementById('top');
     if(succsess == 'success'){
         consoleDiv.innerHTML = '<br><br><label>Your request was completed ' + '</label> <br> ';
+        document.getElementById('top').style.backgroundColor = 'green';
     }
     else {
         consoleDiv.innerHTML = '<br><br><label>Your request failed ' + '</label> <br> <p>' + message + '</p>';
+        
+        document.getElementById('top').style.backgroundColor = 'red';
+
     }
 };
 
