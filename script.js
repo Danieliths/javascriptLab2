@@ -22,3 +22,17 @@ var json = fetch('https://www.forverkliga.se/JavaScript/api/crud.php?requestKey'
 function addBook(){
   console.log(key);
 }
+
+function deleteBook() {
+    var consoleDiv = document.getElementById('console');
+
+    consoleDiv.innerHTML = '<label>input book ID </label> <br> ' +
+    '<input type="text" id="bookId" name="fname">' +
+    '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
+}
+
+function confirmDelete() {
+    alert('delete');
+    var consoleDiv = document.getElementById('console');
+    consoleDiv.innerHTML = null;
+}
