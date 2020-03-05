@@ -3,6 +3,9 @@
 //        console.log(data)});
 //}
 var key = '';
+var deleteQuery = '&op=delete&id=';
+var id;
+
 function getKey(){
 var json = fetch('https://www.forverkliga.se/JavaScript/api/crud.php?requestKey')
   .then((response) => {
@@ -32,6 +35,14 @@ function deleteBook() {
 }
 
 function confirmDelete() {
+    id = document.getElementById('bookId').innerText;
+    fetch(baseUrl + deleteQuery + id)
+    .then(response) => {
+        return response.json();
+    })
+    .then(data)=>{
+        
+    }
     alert('delete');
     var consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = null;
