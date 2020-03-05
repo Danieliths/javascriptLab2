@@ -33,17 +33,3 @@ function deleteBook() {
     '<input type="text" id="bookId" name="fname">' +
     '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
 }
-
-function confirmDelete() {
-    id = document.getElementById('bookId').innerText;
-    fetch(baseUrl + deleteQuery + id)
-    .then(response) => {
-        return response.json();
-    })
-    .then(data)=>{
-        
-    }
-    alert('delete');
-    var consoleDiv = document.getElementById('console');
-    consoleDiv.innerHTML = null;
-}
