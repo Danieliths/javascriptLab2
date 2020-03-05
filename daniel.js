@@ -63,8 +63,15 @@ function showBooks(){
             numberOfRetrys = 0;
             message(data.status, data.id);
             var consoleDiv = document.getElementById('console');
+
+                //id: 98729, title: "dasdad", author: "asdasda", updated: "2020-03-05 16:30:31"
+
             data.data.forEach(element => {
-                console.log(element.id);
+                consoleDiv.innerHTML = 
+                '<label>Id: ' + element.id + '</label> <br>' +
+                '<label>title: ' + element.title + '</label> <br>' +
+                '<label>author: ' + element.author + '</label> <br>' +
+                '<label>updated: ' + element.updated + '</label> <br>'
             });
         }
             //consoleDiv.innerHTML = '<label>Id: ' + element.id + '</label> <br>'
