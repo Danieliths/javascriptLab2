@@ -35,14 +35,16 @@ function deleteBook() {
 }
 
 function confirmDelete() {
-    id = document.getElementById('bookId').innerText;
-    fetch(baseUrl + deleteQuery + id)
-    .then(response) => {
-        return response.json();
-    })
-    .then(data)=>{
-        
-    }
+    id = document.getElementById('bookId').value;
+    console.log(id);
+  var json = fetch(baseUrl + keyQuery + key + deleteQuery + id)
+  .then((response) => {
+      return response.json();
+  })
+  .then((data)=>{
+      console.log(data);
+
+  });
     alert('delete');
     var consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = null;
