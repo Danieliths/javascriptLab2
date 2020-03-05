@@ -1,4 +1,4 @@
-#flexdiv {
+#flexDiv {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -6,12 +6,14 @@
     text-align: center;
     overflow: auto;
 }
-#leftside {
+#leftSide {
     width: 25%;
     height: 100%;
     background-color: green;
+    align-content: center;
+
 }
-#rightsidediv {
+#rightSideDiv {
     width: 75%;
     height: 100%;
 }
