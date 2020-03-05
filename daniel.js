@@ -7,7 +7,7 @@ var numberOfRetrys = 0;
 function message(succsess, message){
     var consoleDiv = document.getElementById('top');
     if(succsess == 'success'){
-        consoleDiv.innerHTML = '<br><br><label>Your request was completed ' + '</label> <br> ';
+        consoleDiv.innerHTML = '<br><br><label>Your request was completed ' + '</label> <br> <p>' + message + '</p>';
         document.getElementById('top').style.backgroundColor = 'green';
     }
     else {
@@ -17,9 +17,26 @@ function message(succsess, message){
 
     }
 };
+function showBooksMenu(){
+    var consoleDiv = document.getElementById('console');
+    consoleDiv.innerHTML = '<label>Input book id </label>  ' +
+    '<input type="text" id="showBookId" name="test3"><br>' +
+    '<button id="bajskaka" onclick="showBooks()">Confirm</button>';
+}
 
+function addBookMenu(){
+    var consoleDiv = document.getElementById('console');
+
+    consoleDiv.innerHTML = '<label>Input title </label>  ' +
+    '<input type="text" id="bookTitle" name="test"><br>' +
+    '<label>Input author </label>  ' +
+    '<input type="text" id="bookAuthor" name="test2"><br>' +
+    '<button id="addBook" onclick="addBook()">Confirm</button>';
+}
 function addBook(){
-        fetch(baseUrl + keyQuery + key + addQuery + '&title=test&author=bajsmannen')
+    var title = document.getElementById('bookTitle').value;
+    var author = document.getElementById('bookAuthor').value;
+        fetch(baseUrl + keyQuery + key + addQuery + '&title=' + title + '&author=' + author)
         .then((response) => {
         return response.json();
         })
@@ -27,7 +44,7 @@ function addBook(){
         if(data.status == 'success'  || numberOfRetrys > 2) {
             console.log(data);
             numberOfRetrys = 0;
-            message(data.status, data.message);
+            message(data.status, data.id);
         } 
         else {
             numberOfRetrys++;
@@ -36,7 +53,36 @@ function addBook(){
         });
 };
 function showBooks(){
-
+        fetch(baseUrl + keyQuery + key + showQuery)
+        .then((response) => {
+        return response.json();
+        })
+        .then((data) => {
+        if(data.status == 'success'  || numberOfRetrys > 2) {
+            console.log(data.data);
+            numberOfRetrys = 0;
+            message(data.status, data.id);
+            var consoleDiv = document.getElementById('console');
+            data.data.forEach(element => {
+                console.log(element.id);
+            });
+        }
+            //consoleDiv.innerHTML = '<label>Id: ' + element.id + '</label> <br>'
+    
+        else {
+            numberOfRetrys++;
+            showBooks();
+        }
+    });
 };
+function displayBooks(array){
+    var consoleDiv = document.getElementById('console');
+
+    
+    array.forEach(element => {
+        consoleDiv.innerHTML = '<label>Id: ' + element.id + '</label> <br>'
+    });
+
+}
 // add book
 // show books
