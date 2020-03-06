@@ -25,7 +25,7 @@ function displayBooks(array){
       const element = array.data[index];
       showBooksText = showBooksText + 
       '<br><label>Id: ' + element.id + '</label> <button id="deleteBook" onclick="deleteBook2('+ element.id + ')">Delete</button><br>' +
-      '<label>title: ' + element.title + '</label> <br>' +
+      '<label>title: ' + element.title + '</label> <button id="changeBook" onclick="changeBook('+ element.id + ')">Edit book</button><br>' +
       '<label>author: ' + element.author + '</label> <br>' +
       '<label>updated: ' + element.updated + '</label><br><br>'
   }
@@ -33,47 +33,20 @@ function displayBooks(array){
   consoleDiv.innerHTML = showBooksText;
 };
 
-function deleteBook() {
+function changeBook(id) {
     var consoleDiv = document.getElementById('console');
-
-    consoleDiv.innerHTML = '<label>input book ID </label> <br> ' +
-    '<input type="text" id="bookId" name="bookId">' +
-    '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
-}
-
-function confirmDelete() {
-   let id = document.getElementById('bookId').value;
-  fetch(baseUrl + keyQuery + key + deleteQuery + id)
-  .then((response) => {
-      return response.json();
-  })
-  .then((data)=>{
-    if(data.status == 'success' ||numberOfRetrys > 9) {
-        numberOfRetrys = 0;
-        message(data.status, data.id);
-        alert('book deleted');
-      }
-      else {
-        numberOfRetrys++;
-        confirmDelete();
-    }
-  });  
-}
-
-function changeBook() {
-    var consoleDiv = document.getElementById('console');
-
-    consoleDiv.innerHTML ='<label>Input Book Id </label><input typ="text" id="bookId" name="bookId">' + 
-    '<br> <label>Inpit New title: </label><input typ="text" id="newTitle" name="newTitle">' +
+    let tempId = id;
+    console.log(tempId);
+    consoleDiv.innerHTML = '<br> <label>Inpit New title: </label><input typ="text" id="newTitle" name="newTitle">' +
     '<br> <label>New Author: </label><input typ="text" id="newAuthor" name="newAuthor">' +
-    '<br><button id="confirmChange" onclick="confirmChange()">Confirm changes</button>';
+    '<br><button id="confirmChange" onclick="confirmChange('+tempId+')">Confirm changes</button>';
 }
 
-function confirmChange() {
+function confirmChange(idToChange) {
     let newTitle = document.getElementById('newTitle').value;
     let newAuthor = document.getElementById('newAuthor').value;
-    let id = document.getElementById('bookId').value;
-    fetch(baseUrl + keyQuery + key + updateQuery + id + '&title=' + newTitle + '&author=' + newAuthor)
+    console.log(idToChange);
+    fetch(baseUrl + keyQuery + key + updateQuery + idToChange + '&title=' + newTitle + '&author=' + newAuthor)
   .then((response) => {
       return response.json();
   })
@@ -81,11 +54,13 @@ function confirmChange() {
     if(data.status == 'success' ||numberOfRetrys > 9) {
         numberOfRetrys = 0;
         message(data.status, data.id);
-        alert('bookchanged');
+        if(data.status == 'success'){
+            fetchLibary();
+        }
       }
       else {
         numberOfRetrys++;
-        confirmChange();
+        confirmChange(idToChange);
     }
   });  
   
