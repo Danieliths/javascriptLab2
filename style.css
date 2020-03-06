@@ -9,7 +9,6 @@
 #leftSide {
     width: 25%;
     height: 100%;
-    background-color: black;
     align-content: center;
 
 }
@@ -25,7 +24,6 @@
 #console {
     width: 100%;
     height: 75%;
-    background-color: blue;
 }
 .container {
     width: 100%;
