@@ -40,12 +40,13 @@ function addBook(retrys = 0){
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || retrys > 9) {
-            message(data.status, data.id);
-        } 
-        else {
-            addBook(retrys +1);
-        }
+            retry(data,addBook,addBookMenu);
+        //if(data.status == 'success'  || retrys > 9) {
+        //    message(data.status, data.id);
+        //} 
+        //else {
+        //    addBook(retrys +1);
+        //}
         });
 };
 function fetchLibary(retrys = 0){
@@ -54,44 +55,46 @@ function fetchLibary(retrys = 0){
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || retrys > 9) {
-            message(data.status, data.id);
-            if(data.status == 'success'){ 
-                displayBooks(data);
-            }
-        }
-        else {
-            numberOfRetrys++;
-            fetchLibary(retrys +1);
-        }
-    });
+            retry(data, fetchLibary, displayBooks);
+        });
 };
+function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkWith = 0, retrys = 0){
+    if(fetchedData.status == 'success'  || retrys > 9) {
+        message(fetchedData.status, fetchedData.id);
+        if(fetchedData.status == 'success'){ 
+            functionToRunWhenSuccess(fetchedData);
+        }
+    }
+    else {
+        if(idToWorkWith > 0){
+            functionToRetry(idToWorkWith, retrys +1);
+            console.log('test');
+        }
+        else{
+            functionToRetry(retrys +1);
+        }
+    }
+}
 
 
-
-function deleteBook2(idToDelete) {
+function deleteBook2(idToDelete, retrys = 0) {
   var json = fetch(baseUrl + keyQuery + key + deleteQuery + idToDelete)
   .then((response) => {
       return response.json();
   })
   .then((data)=>{
-    if(data.status == 'success' ||numberOfRetrys > 9) {
-        numberOfRetrys = 0;
-        message(data.status, data.id);
-        if(data.status == 'success'){
-            fetchLibary();
-        }
-      }
-      else {
-        numberOfRetrys++;
-        deleteBook2(idToDelete);
-    }
+      retry(data,deleteBook2,fetchLibary,idToDelete);
+    //if(data.status == 'success' ||numberOfRetrys > 9) {
+    //    numberOfRetrys = 0;
+    //    message(data.status, data.id);
+    //    if(data.status == 'success'){
+    //        fetchLibary();
+    //    }
+    //  }
+    //  else {
+    //    numberOfRetrys++;
+    //    deleteBook2(idToDelete);
+    //}
   });  
 }
-//function deleteBook() {
-//    var consoleDiv = document.getElementById('console');
-//
-//    consoleDiv.innerHTML = '<label>input book ID </label> <br> ' +
-//    '<input type="text" id="bookId" name="bookId">' +
-//    '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
-//}
+// hur skall jag få med idToDelete i min generiska retry
