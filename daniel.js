@@ -67,19 +67,7 @@ function fetchLibary(retrys = 0){
     });
 };
 
-function displayBooks(array){
-    let showBooksText = '';
-    for (let index = 0; index < array.data.length; index++) {
-        const element = array.data[index];
-        showBooksText = showBooksText + 
-        '<br><label>Id: ' + element.id + '</label> <button id="deleteBook" onclick="deleteBook2('+ element.id + ')">Delete</button><br>' +
-        '<label>title: ' + element.title + '</label> <br>' +
-        '<label>author: ' + element.author + '</label> <br>' +
-        '<label>updated: ' + element.updated + '</label><br><br>'
-    }
-    let consoleDiv = document.getElementById('console');
-    consoleDiv.innerHTML = showBooksText;
-};
+
 
 function deleteBook2(idToDelete) {
   var json = fetch(baseUrl + keyQuery + key + deleteQuery + idToDelete)
