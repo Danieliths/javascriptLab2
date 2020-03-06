@@ -29,10 +29,10 @@ function addBookMenu(){
     '<input type="text" id="bookTitle"><br>' +
     '<label>Input author </label>  ' +
     '<input type="text" id="bookAuthor"><br>' +
-    '<button id="addBook" onclick="addBook()">Confirm</button>';
+    '<button id="addBook" onclick="addBook(0)">Confirm</button>';
 }
 
-function addBook(){
+function addBook(retrys = 0){
     let title = document.getElementById('bookTitle').value;
     let author = document.getElementById('bookAuthor').value;
         fetch(baseUrl + keyQuery + key + addQuery + '&title=' + title + '&author=' + author)
@@ -40,13 +40,11 @@ function addBook(){
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || numberOfRetrys > 2) {
-            numberOfRetrys = 0;
+        if(data.status == 'success'  || retrys > 2) {
             message(data.status, data.id);
         } 
         else {
-            numberOfRetrys++;
-            addBook();
+            addBook(retrys +1);
         }
         });
 };
