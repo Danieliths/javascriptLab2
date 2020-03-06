@@ -1,6 +1,7 @@
 var key = '';
 var deleteQuery = '&op=delete&id=';
-var id;
+var updateQuery = '&op=update&id=';
+
 
 function getKey(){
 var json = fetch('https://www.forverkliga.se/JavaScript/api/crud.php?requestKey')
@@ -29,8 +30,8 @@ function deleteBook() {
 }
 
 function confirmDelete() {
-    id = document.getElementById('bookId').value;
-  var json = fetch(baseUrl + keyQuery + key + deleteQuery + id)
+   let id = document.getElementById('bookId').value;
+  fetch(baseUrl + keyQuery + key + deleteQuery + id)
   .then((response) => {
       return response.json();
   })
@@ -52,20 +53,28 @@ function changeBook() {
 
     consoleDiv.innerHTML ='<label>Input Book Id </label><input typ="text" id="bookId" name="bookId">' + 
     '<br> <label>Inpit New title: </label><input typ="text" id="newTitle" name="newTitle">' +
-    '<br> <label>New Author: </label><input typ="text" id="newAuthour" name="newAuthor">' +
+    '<br> <label>New Author: </label><input typ="text" id="newAuthor" name="newAuthor">' +
     '<br><button id="confirmChange" onclick="confirmChange()">Confirm changes</button>';
 }
 
 function confirmChange() {
-    
-    let bookId = document.getElementById('bookId').value;
-    var bookTitle = '';
-    var author = '';
-
-
-    var consoleDiv = document.getElementById('console');
-    console.log(author);
-    console.log(bookTitle);
-    consoleDiv.innerHTML = '<label>Book title: </label><input typ="text" id="bookTitle" value="Hej"> <br> <label> Author: </label><input typ="text" id="bookTitle" value="'+ author +
-    '">';
+    let newTitle = document.getElementById('newTitle').value;
+    let newAuthor = document.getElementById('newAuthor').value;
+    let id = document.getElementById('bookId').value;
+    fetch(baseUrl + keyQuery + key + updateQuery + id + '&title=' + newTitle + '&author=' + newAuthor)
+  .then((response) => {
+      return response.json();
+  })
+  .then((data)=>{
+    if(data.status == 'success' ||numberOfRetrys > 9) {
+        numberOfRetrys = 0;
+        message(data.status, data.id);
+        alert('bookchanged');
+      }
+      else {
+        numberOfRetrys++;
+        confirmChange();
+    }
+  });  
+  
 }
