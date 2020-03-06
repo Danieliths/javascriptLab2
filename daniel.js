@@ -29,7 +29,7 @@ function addBookMenu(){
     '<input type="text" id="bookTitle"><br>' +
     '<label>Input author </label>  ' +
     '<input type="text" id="bookAuthor"><br>' +
-    '<button id="addBook" onclick="addBook(0)">Confirm</button>';
+    '<button id="addBook" onclick="addBook()">Confirm</button>';
 }
 
 function addBook(retrys = 0){
@@ -48,14 +48,13 @@ function addBook(retrys = 0){
         }
         });
 };
-function fetchLibary(){
+function fetchLibary(retrys = 0){
         fetch(baseUrl + keyQuery + key + showQuery)
         .then((response) => {
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || numberOfRetrys > 2) {
-            numberOfRetrys = 0;
+        if(data.status == 'success'  || retrys > 2) {
             message(data.status, data.id);
             if(data.status == 'success'){ 
                 displayBooks(data);
@@ -63,7 +62,7 @@ function fetchLibary(){
         }
         else {
             numberOfRetrys++;
-            fetchLibary();
+            fetchLibary(retrys +1);
         }
     });
 };
