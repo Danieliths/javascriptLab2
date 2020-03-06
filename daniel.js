@@ -12,11 +12,10 @@ function message(succsess, message){
     }
     else {
         consoleDiv.innerHTML = '<br><br><label>Your request failed ' + '</label> <br> <p>' + message + '</p>';
-        
         document.getElementById('top').style.backgroundColor = 'red';
-
     }
 };
+
 function showBooksMenu(){
     var consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = '<label>Input book id </label>  ' +
@@ -26,13 +25,13 @@ function showBooksMenu(){
 
 function addBookMenu(){
     var consoleDiv = document.getElementById('console');
-
     consoleDiv.innerHTML = '<label>Input title </label>  ' +
     '<input type="text" id="bookTitle" name="test"><br>' +
     '<label>Input author </label>  ' +
     '<input type="text" id="bookAuthor" name="test2"><br>' +
     '<button id="addBook" onclick="addBook()">Confirm</button>';
 }
+
 function addBook(){
     var title = document.getElementById('bookTitle').value;
     var author = document.getElementById('bookAuthor').value;
@@ -62,20 +61,18 @@ function showBooks(){
             console.log(data.data);
             numberOfRetrys = 0;
             message(data.status, data.id);
-            var consoleDiv = document.getElementById('console');
-
-                //id: 98729, title: "dasdad", author: "asdasda", updated: "2020-03-05 16:30:31"
-
-            data.data.forEach(element => {
-                consoleDiv.innerHTML = 
-                '<label>Id: ' + element.id + '</label> <br>' +
+            var showBooksText = '';
+            for (let index = 0; index < data.data.length; index++) {
+                const element = data.data[index];
+                showBooksText = showBooksText + 
+                '<br><label>Id: ' + element.id + '</label> <br>' +
                 '<label>title: ' + element.title + '</label> <br>' +
                 '<label>author: ' + element.author + '</label> <br>' +
-                '<label>updated: ' + element.updated + '</label> <br>'
-            });
+                '<label>updated: ' + element.updated + '</label>'
+            }
+            var consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML = showBooksText;
         }
-            //consoleDiv.innerHTML = '<label>Id: ' + element.id + '</label> <br>'
-    
         else {
             numberOfRetrys++;
             showBooks();
@@ -84,8 +81,6 @@ function showBooks(){
 };
 function displayBooks(array){
     var consoleDiv = document.getElementById('console');
-
-    
     array.forEach(element => {
         consoleDiv.innerHTML = '<label>Id: ' + element.id + '</label> <br>'
     });
