@@ -24,7 +24,7 @@ function deleteBook() {
     var consoleDiv = document.getElementById('console');
 
     consoleDiv.innerHTML = '<label>input book ID </label> <br> ' +
-    '<input type="text" id="bookId" name="fname">' +
+    '<input type="text" id="bookId" name="bookId">' +
     '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
 }
 
@@ -36,19 +36,36 @@ function confirmDelete() {
   })
   .then((data)=>{
     if(data.status == 'success' ||numberOfRetrys > 9) {
-        console.log(data);
         numberOfRetrys = 0;
         message(data.status, data.id);
-        var consoleDiv = document.getElementById('console');
-        consoleDiv.innerHTML = null;
-        alert('deleted' + data.value);
+        alert('book deleted');
       }
       else {
         numberOfRetrys++;
         confirmDelete();
     }
-  });
+  });  
+}
+
+function changeBook() {
+    var consoleDiv = document.getElementById('console');
+
+    consoleDiv.innerHTML ='<label>Input Book Id </label><input typ="text" id="bookId" name="bookId">' + 
+    '<br> <label>Inpit New title: </label><input typ="text" id="newTitle" name="newTitle">' +
+    '<br> <label>New Author: </label><input typ="text" id="newAuthour" name="newAuthor">' +
+    '<br><button id="confirmChange" onclick="confirmChange()">Confirm changes</button>';
+}
+
+function confirmChange() {
     
-    
-    
+    let bookId = document.getElementById('bookId').value;
+    var bookTitle = '';
+    var author = '';
+
+
+    var consoleDiv = document.getElementById('console');
+    console.log(author);
+    console.log(bookTitle);
+    consoleDiv.innerHTML = '<label>Book title: </label><input typ="text" id="bookTitle" value="Hej"> <br> <label> Author: </label><input typ="text" id="bookTitle" value="'+ author +
+    '">';
 }
