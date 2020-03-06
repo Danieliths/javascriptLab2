@@ -40,7 +40,7 @@ function addBook(retrys = 0){
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || retrys > 2) {
+        if(data.status == 'success'  || retrys > 9) {
             message(data.status, data.id);
         } 
         else {
@@ -54,7 +54,7 @@ function fetchLibary(retrys = 0){
         return response.json();
         })
         .then((data) => {
-        if(data.status == 'success'  || retrys > 2) {
+        if(data.status == 'success'  || retrys > 9) {
             message(data.status, data.id);
             if(data.status == 'success'){ 
                 displayBooks(data);
@@ -72,7 +72,7 @@ function displayBooks(array){
     for (let index = 0; index < array.data.length; index++) {
         const element = array.data[index];
         showBooksText = showBooksText + 
-        '<br><label>Id: ' + element.id + '</label> <br>' +
+        '<br><label>Id: ' + element.id + '</label> <button id="deleteBook" onclick="deleteBook2('+ element.id + ')">Delete</button><br>' +
         '<label>title: ' + element.title + '</label> <br>' +
         '<label>author: ' + element.author + '</label> <br>' +
         '<label>updated: ' + element.updated + '</label><br><br>'
@@ -80,3 +80,30 @@ function displayBooks(array){
     let consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = showBooksText;
 };
+
+function deleteBook2(idToDelete) {
+  var json = fetch(baseUrl + keyQuery + key + deleteQuery + idToDelete)
+  .then((response) => {
+      return response.json();
+  })
+  .then((data)=>{
+    if(data.status == 'success' ||numberOfRetrys > 9) {
+        numberOfRetrys = 0;
+        message(data.status, data.id);
+        if(data.status == 'success'){
+            fetchLibary();
+        }
+      }
+      else {
+        numberOfRetrys++;
+        deleteBook2(idToDelete);
+    }
+  });  
+}
+//function deleteBook() {
+//    var consoleDiv = document.getElementById('console');
+//
+//    consoleDiv.innerHTML = '<label>input book ID </label> <br> ' +
+//    '<input type="text" id="bookId" name="bookId">' +
+//    '<button id="confirmDelete" onclick="confirmDelete()">Confirm</button>';
+//}
