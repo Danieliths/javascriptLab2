@@ -23,19 +23,6 @@ fetch(baseUrl + requestQuery)
   });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function displayBooks(array){
   let showBooksStart = '<h3 class="w3-padding-16 w3-text-light-grey">Added Books</h3><div class="w3-row-padding" style="margin:0 -16px">';
   let showBooksEnd = '';
@@ -57,39 +44,16 @@ function displayBooks(array){
   consoleDiv.innerHTML = showBooksStart + showBooksText + showBooksEnd;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function changeBook(id) {
     var consoleDiv = document.getElementById('console');
     let tempId = id;
-    console.log(tempId);
     consoleDiv.innerHTML = '<br> <label>Input New title: </label><input typ="text" id="newTitle" name="newTitle">' +
     '<br> <label>New Author: </label><input typ="text" id="newAuthor" name="newAuthor">' +
     '<br><button id="confirmChange" onclick="confirmChange('+tempId+')">Confirm changes</button>';
 }
 
-
 function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkWith = 0, retrys = 0){
-    if(fetchedData.status == 'success'  || retrys > 9) {
+    if(fetchedData.status == 'success'  || retrys > 2) {
         message(fetchedData.status, fetchedData.id);
         if(fetchedData.status == 'success'){
             functionToRunWhenSuccess(fetchedData);
@@ -98,7 +62,6 @@ function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkW
     else {
         if(idToWorkWith > 0){
             functionToRetry(idToWorkWith, retrys +1);
-            console.log('test');
         }
         else{
             functionToRetry(retrys +1);
@@ -106,29 +69,34 @@ function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkW
     }
 }
 
-function confirmChange(idToChange) {
+function confirmChange(idToChange, retrys = 0) {
     let newTitle = document.getElementById('newTitle').value;
     let newAuthor = document.getElementById('newAuthor').value;
-    console.log(idToChange);
     fetch(baseUrl + keyQuery + key + updateQuery + idToChange + '&title=' + newTitle + '&author=' + newAuthor)
   .then((response) => {
       return response.json();
   })
   .then((data)=>{
-    retry(data, confirmChange, fetchLibary, idToChange);
+    retry(data, confirmChange, fetchLibary, idToChange, retrys);
   });
 }
 
 function message(succsess, message){
-    //let consoleDiv = document.getElementById('top');
-    //if(succsess == 'success'){
-    //    consoleDiv.innerHTML = '<br><br><label>Your request was completed ' + '</label> <br> <p>' + message + '</p>';
-    //    document.getElementById('top').style.backgroundColor = 'green';
-    //}
-    //else {
-    //    consoleDiv.innerHTML = '<br><br><label>Your request failed ' + '</label> <br> <p>' + message + '</p>';
-    //    document.getElementById('top').style.backgroundColor = 'red';
-    //}
+    let consoleDiv = document.getElementById('message');
+    if(succsess == 'success' && typeof message !== 'undefined'){
+
+        consoleDiv.innerHTML = '<br><br><label>Your request was completed ' + '</label> <br> <p> Book id: ' + message + '</p>';
+    }
+    else if (succsess == 'success') {
+        consoleDiv.innerHTML = '<br><br><label>Your request was completed ';
+    }
+    else if (succsess == 'failed' && typeof message !== 'undefined'){
+
+        consoleDiv.innerHTML = '<br><br><label>Your request failed ' + '</label> <br> <p>' + message + '</p>';
+    }
+    else {
+      consoleDiv.innerHTML = '<br><br><label>Your request failed ' + '</label>';
+    }
 };
 
 function showBooksMenu(){
@@ -151,11 +119,6 @@ function addBookMenu(){
     '</form>';
 }
 
-
-
-
-
-
 function addBook(retrys = 0){
   let title = document.getElementById('bookTitle').value;
   let author = document.getElementById('bookAuthor').value;
@@ -164,7 +127,7 @@ function addBook(retrys = 0){
         return response.json();
         })
         .then((data) => {
-            retry(data,addBook,addBookMenu);
+            retry(data,addBook,addBookMenu, 0, retrys);
         });
 };
 
@@ -174,17 +137,17 @@ function fetchLibary(retrys = 0){
         return response.json();
         })
         .then((data) => {
-            retry(data, fetchLibary, displayBooks);
+            retry(data, fetchLibary, displayBooks, 0, retrys);
         });
 };
-
+// något fel på denna. medelandet vid fail blir "[object Object]1" något fuckat
 function deleteBook2(idToDelete, retrys = 0) {
   var json = fetch(baseUrl + keyQuery + key + deleteQuery + idToDelete)
   .then((response) => {
       return response.json();
   })
   .then((data)=>{
-      retry(data,deleteBook2,fetchLibary,idToDelete);
+      retry(data,deleteBook2,fetchLibary,idToDelete, retrys);
 
   });
 }
