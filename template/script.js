@@ -73,7 +73,7 @@ function addBookMenu(){
 }
 
 function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkWith = 0, retrys = 0){
-    if(fetchedData.status == 'success'  || retrys > 2) {
+    if(fetchedData.status == 'success'  || retrys > 9) {
         message(fetchedData.status, fetchedData.id);
         if(fetchedData.status == 'success'){
             functionToRunWhenSuccess(fetchedData);
