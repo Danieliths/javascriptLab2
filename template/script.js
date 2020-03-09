@@ -82,7 +82,7 @@ function changeBook(id) {
     var consoleDiv = document.getElementById('console');
     let tempId = id;
     console.log(tempId);
-    consoleDiv.innerHTML = '<br> <label>Inpit New title: </label><input typ="text" id="newTitle" name="newTitle">' +
+    consoleDiv.innerHTML = '<br> <label>Input New title: </label><input typ="text" id="newTitle" name="newTitle">' +
     '<br> <label>New Author: </label><input typ="text" id="newAuthor" name="newAuthor">' +
     '<br><button id="confirmChange" onclick="confirmChange('+tempId+')">Confirm changes</button>';
 }
@@ -137,10 +137,10 @@ function showBooksMenu(){
     '<input type="text" id="showBookId"><br>' +
     '<button id="bajskaka" onclick="showBooks()">Confirm</button>';
 }
-
 function addBookMenu(){
     let consoleDiv = document.getElementById('console');
-    consoleDiv.innerHTML = '<form id="book-form">' +
+    consoleDiv.innerHTML = '<h3 class="w3-padding-16 w3-text-light-grey">Add Book</h3><div class="w3-row-padding" style="margin:0 -16px">' +
+    '<form id="book-form">' +
     '<p><input class="w3-input w3-padding-16" type="text" id="bookTitle" placeholder="Title"></p>' +
     '<p><input class="w3-input w3-padding-16"  type="text" id="bookAuthor" placeholder="Author"></p>' +
     '<p>' +
