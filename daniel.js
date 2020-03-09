@@ -41,12 +41,6 @@ function addBook(retrys = 0){
         })
         .then((data) => {
             retry(data,addBook,addBookMenu);
-        //if(data.status == 'success'  || retrys > 9) {
-        //    message(data.status, data.id);
-        //} 
-        //else {
-        //    addBook(retrys +1);
-        //}
         });
 };
 function fetchLibary(retrys = 0){
