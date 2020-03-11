@@ -61,15 +61,13 @@ function changeBook(id) {
 function addBookMenu(){
     let consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = '<h3 class="w3-padding-16 w3-text-light-grey">Add Book</h3><div class="w3-row-padding" style="margin:0 -16px">' +
-    '<form id="book-form">' +
     '<p><input class="w3-input w3-padding-16" type="text" id="bookTitle" placeholder="Title"></p>' +
     '<p><input class="w3-input w3-padding-16"  type="text" id="bookAuthor" placeholder="Author"></p>' +
     '<p>' +
     '<button class="w3-button w3-light-grey w3-padding-large" onclick="addBook()">' +
     '<i class="fa fa-paper-plane"></i> Add Book' +
     '</button>' +
-    '</p>' +
-    '</form>';
+    '</p>';
 }
 
 function retry(fetchedData, functionToRetry, functionToRunWhenSuccess, idToWorkWith = 0, retrys = 0){
