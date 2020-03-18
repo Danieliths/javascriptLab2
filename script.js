@@ -47,15 +47,13 @@ function displayBooks(array){
 function changeBook(id) {
     var consoleDiv = document.getElementById('console');
     consoleDiv.innerHTML = '<h3 class="w3-padding-16 w3-text-light-grey">Add Book</h3><div class="w3-row-padding" style="margin:0 -16px">' +
-    '<form id="book-form">' +
     '<p><input class="w3-input w3-padding-16" type="text" id="newTitle" placeholder="Title"></p>' +
     '<p><input class="w3-input w3-padding-16"  type="text" id="newAuthor" placeholder="Author"></p>' +
     '<p>' +
     '<button class="w3-button w3-light-grey w3-padding-large" onclick="confirmChange(' + id + ')">' +
     '<i class="fa fa-paper-plane"></i> Edit Book' +
     '</button>' +
-    '</p>' +
-    '</form>';
+    '</p>';
 }
 
 function addBookMenu(){
